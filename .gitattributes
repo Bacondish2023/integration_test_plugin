@@ -1,0 +1,15 @@
+*	text=auto
+
+# source code
+*.py	text
+
+*.md	text
+LICENSE	text
+
+*.jpg	binary
+*.png	binary
+
+*.pdf	binary
+
+*.bat	text
+*.sh	text
