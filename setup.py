@@ -8,7 +8,7 @@ with open('README.md', 'r', encoding='utf-8') as fd:
     __readme = fd.read()
 
 setup(  name = 'integration_test_plugin',
-        version = '0.0.1',
+        version = '1.0.0',
         description = 'A plugin which enable testing of target executables on Python3 unittest framework.',
         long_description = __readme,
         long_description_content_type = 'text/markdown',
