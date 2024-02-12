@@ -1,3 +1,7 @@
 # Temporary directories
 __pycache__/
-zzz_build/
+
+# Temporary directory. Created by Python setuptools.
+build/
+dist/
+integration_test_plugin.egg-info/

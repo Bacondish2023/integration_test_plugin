@@ -1,0 +1,6 @@
+2024-02-01 10:00:00.000 INFO    Start
+2024-02-01 10:00:01.000 INFO    Start initialization
+2024-02-01 10:00:05.000 INFO    Initialization done
+2024-02-01 10:00:05.000 INFO    Start operation
+2024-02-01 10:30:23.000 INFO    Shutdown required
+2024-02-01 10:30:23.456 INFO    Shutdown. Wait for power off.

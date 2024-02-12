@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - 'main'
+  workflow_dispatch:
+
+jobs:
+  SmokeTest:
+    strategy:
+      matrix:
+#        platform: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+        platform: ['ubuntu-latest']
+    runs-on: ${{ matrix.platform }}
+    steps:
+
+      - name: Checkout VCS
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11' # Importing setuptools fails on 3.12 or above.
+
+      - name: Unit Test
+        run:    |
+                python -m unittest discover --verbose
+
+      - name: Integration Test
+        run:    |
+                python setup.py install
+                python -B test_import/test_import.py

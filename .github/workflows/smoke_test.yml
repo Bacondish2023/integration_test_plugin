@@ -1,0 +1,61 @@
+name: SmokeTest
+
+on:
+  push:
+    branches:
+      - 'release/**'
+  workflow_dispatch:
+
+jobs:
+  SmokeTest:
+    strategy:
+      matrix:
+        platform: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+#        platform: ['ubuntu-latest']
+        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11']
+    runs-on: ${{ matrix.platform }}
+    steps:
+
+      - name: Checkout VCS
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Unit Test
+        run:    |
+                python -m unittest discover --verbose
+
+      - name: Integration Test
+        run:    |
+                python setup.py install
+                python -B test_import/test_import.py
+
+
+  Merge:
+    needs: SmokeTest
+    runs-on: 'ubuntu-latest'
+    steps:
+
+      - name: Checkout VCS
+        uses: actions/checkout@v4
+        with:
+          ref: 'main'
+          fetch-depth: 20
+          token: ${{ secrets.PAT }}
+
+      - name: Merge
+        run:    |
+                git config --local user.name "Workflow"
+                git config --local user.email "Workflow@users.noreply.github.com"
+                git fetch origin ${{ github.ref_name }}
+                git checkout ${{ github.ref_name }}
+                git checkout main
+                git merge ${{ github.ref_name }}
+                git push origin main
+
+      - name: Clean
+        run:    |
+                git push origin --delete ${{ github.ref_name }}
